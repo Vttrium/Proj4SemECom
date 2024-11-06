@@ -1,8 +1,5 @@
 package br.pedroS.utfpr.FinesWoodW.server.service.impl;
 
-import br.edu.utfpr.pb.pw44s.server.model.Category;
-import br.edu.utfpr.pb.pw44s.server.repository.CategoryRepository;
-import br.edu.utfpr.pb.pw44s.server.service.ICategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

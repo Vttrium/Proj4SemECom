@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
+import br.pedroS.utfpr.FinesWoodW.server.model.User;
+import br.pedroS.utfpr.FinesWoodW.server.repository.UserRepository;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -46,7 +49,7 @@ public class UserControllerTest {
     private User createValidUser() {
         User user = new User();
         user.setUsername("test-user");
-        user.setDisplayName("test-display");
+        user.setEmail("test-email");
         user.setPassword("P4ssword");
 
         return user;

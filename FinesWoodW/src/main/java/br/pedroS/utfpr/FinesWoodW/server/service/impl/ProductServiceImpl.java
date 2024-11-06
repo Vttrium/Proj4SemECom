@@ -1,8 +1,5 @@
 package br.pedroS.utfpr.FinesWoodW.server.service.impl;
 
-import br.edu.utfpr.pb.pw44s.server.model.Product;
-import br.edu.utfpr.pb.pw44s.server.repository.ProductRepository;
-import br.edu.utfpr.pb.pw44s.server.service.IProductService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
