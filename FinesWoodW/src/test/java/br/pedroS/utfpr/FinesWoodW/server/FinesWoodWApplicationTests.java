@@ -1,4 +1,4 @@
-package br.pedroS.utfpr.FinesWoodW;
+package br.pedroS.utfpr.FinesWoodW.server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
