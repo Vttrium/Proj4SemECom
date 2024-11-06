@@ -1,7 +1,8 @@
 package br.pedroS.utfpr.FinesWoodW.server.repository;
 
-import br.edu.utfpr.pb.pw44s.server.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import br.pedroS.utfpr.FinesWoodW.server.model.Product;
 
 import java.util.List;
 

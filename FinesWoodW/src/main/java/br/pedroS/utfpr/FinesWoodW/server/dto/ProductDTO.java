@@ -1,4 +1,4 @@
-package br.edu.utfpr.pb.pw44s.server.dto;
+package br.pedroS.utfpr.FinesWoodW.server.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

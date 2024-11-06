@@ -2,6 +2,8 @@ package br.pedroS.utfpr.FinesWoodW.server.service;
 
 import java.util.List;
 
+import br.pedroS.utfpr.FinesWoodW.server.model.Category;
+
 public interface ICategoryService extends
         ICrudService<Category, Long> {
 

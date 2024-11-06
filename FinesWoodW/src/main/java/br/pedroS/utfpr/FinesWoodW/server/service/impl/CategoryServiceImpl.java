@@ -1,9 +1,11 @@
 package br.pedroS.utfpr.FinesWoodW.server.service.impl;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+
+import br.pedroS.utfpr.FinesWoodW.server.model.Category;
+import br.pedroS.utfpr.FinesWoodW.server.repository.CategoryRepository;
+import br.pedroS.utfpr.FinesWoodW.server.service.ICategoryService;
 
 import java.util.List;
 

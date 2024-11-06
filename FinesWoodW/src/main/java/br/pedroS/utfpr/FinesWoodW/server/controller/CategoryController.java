@@ -1,17 +1,12 @@
 package br.pedroS.utfpr.FinesWoodW.server.controller;
 
-import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
-import java.util.List;
+import br.pedroS.utfpr.FinesWoodW.server.dto.CategoryDTO;
+import br.pedroS.utfpr.FinesWoodW.server.model.Category;
+import br.pedroS.utfpr.FinesWoodW.server.service.ICategoryService;
+import br.pedroS.utfpr.FinesWoodW.server.service.ICrudService;
 
 @RestController
 @RequestMapping("categories")

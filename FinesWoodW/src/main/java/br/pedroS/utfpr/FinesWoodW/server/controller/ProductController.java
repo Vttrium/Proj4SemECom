@@ -1,11 +1,12 @@
-package br.edu.utfpr.pb.pw44s.server.controller;
+package br.pedroS.utfpr.FinesWoodW.server.controller;
 
-import br.edu.utfpr.pb.pw44s.server.dto.ProductDTO;
-import br.edu.utfpr.pb.pw44s.server.model.Product;
-import br.edu.utfpr.pb.pw44s.server.service.ICrudService;
-import br.edu.utfpr.pb.pw44s.server.service.IProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
+
+import br.pedroS.utfpr.FinesWoodW.server.dto.ProductDTO;
+import br.pedroS.utfpr.FinesWoodW.server.model.Product;
+import br.pedroS.utfpr.FinesWoodW.server.service.ICrudService;
+import br.pedroS.utfpr.FinesWoodW.server.service.IProductService;
 
 @RestController
 @RequestMapping("products")

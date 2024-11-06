@@ -1,4 +1,4 @@
-package br.edu.utfpr.pb.pw44s.server.model;
+package br.pedroS.utfpr.FinesWoodW.server.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
