@@ -1,6 +1,7 @@
 package br.pedroS.utfpr.FinesWoodW.server.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -13,7 +14,8 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "tb_user")
-@Getter @Setter
+@Getter 
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,11 +27,11 @@ public class User implements UserDetails {
 
     @NotNull(message = "O atributo usuário não pode ser nulo.")
     @Size(min = 4, max = 50)
-    private String username;
+    private String name;
 
     @NotNull
-    @Pattern(regexp = "^[\\w-\\.]+@[\\w-\\.]+\\.[a-z]{2,}$")
-    @Size(min = 10, max = 100)
+    @Email
+    @Column(unique = true)
     private String email;
 
     @NotNull
@@ -40,5 +42,10 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.createAuthorityList("ROLE_USER");
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 }
