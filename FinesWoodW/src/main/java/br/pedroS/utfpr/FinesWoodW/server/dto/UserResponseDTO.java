@@ -1,4 +1,4 @@
-package br.pedroS.utfpr.FinesWoodW.server.security.dto;
+package br.pedroS.utfpr.FinesWoodW.server.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 import br.pedroS.utfpr.FinesWoodW.server.model.User;
+import br.pedroS.utfpr.FinesWoodW.server.security.dto.AuthorityResponseDTO;
 
 import java.util.HashSet;
 import java.util.Set;

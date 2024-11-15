@@ -1,11 +1,9 @@
 package br.pedroS.utfpr.FinesWoodW.server.dto;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Data
 public class ProductDTO {
 
     private Long id;
@@ -20,4 +18,6 @@ public class ProductDTO {
     private BigDecimal price;
 
     private CategoryDTO category;
+
+    private ThemeDTO theme;
 }

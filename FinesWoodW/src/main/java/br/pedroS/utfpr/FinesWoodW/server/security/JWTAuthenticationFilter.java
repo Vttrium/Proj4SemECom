@@ -1,8 +1,8 @@
 package br.pedroS.utfpr.FinesWoodW.server.security;
 
+import br.pedroS.utfpr.FinesWoodW.server.dto.UserResponseDTO;
 import br.pedroS.utfpr.FinesWoodW.server.model.User;
 import br.pedroS.utfpr.FinesWoodW.server.security.dto.AuthenticationResponse;
-import br.pedroS.utfpr.FinesWoodW.server.security.dto.UserResponseDTO;
 import br.pedroS.utfpr.FinesWoodW.server.service.AuthService;
 
 import com.auth0.jwt.JWT;

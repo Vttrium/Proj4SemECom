@@ -48,7 +48,7 @@ public class UserControllerTest {
 
     private User createValidUser() {
         User user = new User();
-        user.setUsername("test-user");
+        user.setName("test-user");
         user.setEmail("test-email");
         user.setPassword("P4ssword");
 

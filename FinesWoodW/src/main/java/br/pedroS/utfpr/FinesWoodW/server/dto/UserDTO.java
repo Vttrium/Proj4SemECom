@@ -1,5 +1,7 @@
 package br.pedroS.utfpr.FinesWoodW.server.dto;
 
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -16,11 +18,11 @@ public class UserDTO {
 
     @NotNull(message = "O atributo usuário não pode ser nulo.")
     @Size(min = 4, max = 50)
-    private String username;
+    private String name;
 
     @NotNull
-    @Pattern(regexp = "^[\\w-\\.]+@[\\w-\\.]+\\.[a-z]{2,}$")
-    @Size(min = 10, max = 100)
+    @Email
+    @Column(unique = true)
     private String email;
 
     @NotNull

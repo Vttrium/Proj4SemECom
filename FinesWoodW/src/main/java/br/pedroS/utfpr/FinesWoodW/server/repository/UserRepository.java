@@ -10,8 +10,5 @@ import br.pedroS.utfpr.FinesWoodW.server.model.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     // select * from tb_user where username=:username
-    User findByUsername(String username);
-
-    // select * from tb_user where email LIKE :email
-    User findByEmailContaining(String email);
+    User findByEmail(String email);
 }
