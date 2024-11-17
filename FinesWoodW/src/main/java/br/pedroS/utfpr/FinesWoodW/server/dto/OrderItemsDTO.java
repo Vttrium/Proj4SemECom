@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import jakarta.validation.constraints.NotNull;
 
-public class OrderItems {
+public class OrderItemsDTO {
     private Long id;
 
     @NotNull

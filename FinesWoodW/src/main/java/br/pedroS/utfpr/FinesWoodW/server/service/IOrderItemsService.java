@@ -1,8 +1,8 @@
 package br.pedroS.utfpr.FinesWoodW.server.service;
 
-import br.pedroS.utfpr.FinesWoodW.server.dto.OrderItems;
+import br.pedroS.utfpr.FinesWoodW.server.dto.OrderItemsDTO;
 
 public interface IOrderItemsService extends
-        ICrudService<OrderItems, Long>{
+        ICrudService<OrderItemsDTO, Long>{
 
 }

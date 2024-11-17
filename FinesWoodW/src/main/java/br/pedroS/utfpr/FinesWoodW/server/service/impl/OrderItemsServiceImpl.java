@@ -3,12 +3,12 @@ package br.pedroS.utfpr.FinesWoodW.server.service.impl;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import br.pedroS.utfpr.FinesWoodW.server.dto.OrderItems;
+import br.pedroS.utfpr.FinesWoodW.server.dto.OrderItemsDTO;
 import br.pedroS.utfpr.FinesWoodW.server.repository.OrderItemsRepository;
 import br.pedroS.utfpr.FinesWoodW.server.service.IOrderItemsService;
 
 @Service
-public class OrderItemsServiceImpl extends CrudServiceImpl<OrderItems, Long>
+public class OrderItemsServiceImpl extends CrudServiceImpl<OrderItemsDTO, Long>
         implements IOrderItemsService {
 
     private final OrderItemsRepository orderItemsRepository;
@@ -18,7 +18,7 @@ public class OrderItemsServiceImpl extends CrudServiceImpl<OrderItems, Long>
     }
 
     @Override
-    protected JpaRepository<OrderItems, Long> getRepository() {
+    protected JpaRepository<OrderItemsDTO, Long> getRepository() {
         return orderItemsRepository;
     }
 }
