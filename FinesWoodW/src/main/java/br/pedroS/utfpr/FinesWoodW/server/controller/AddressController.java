@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import br.pedroS.utfpr.FinesWoodW.server.dto.AddressCepDTO;
 import br.pedroS.utfpr.FinesWoodW.server.dto.AddressDTO;
 import br.pedroS.utfpr.FinesWoodW.server.model.Address;
 import br.pedroS.utfpr.FinesWoodW.server.service.IAddressService;
@@ -38,6 +39,19 @@ public class AddressController extends CrudController<Address, AddressDTO, Long>
         return modelMapper.map(address, AddressDTO.class);
     }
 
+    private AddressDTO convertToResponseCepDto(AddressCepDTO addressCepDTO) {
+        modelMapper.typeMap(AddressCepDTO.class, AddressDTO.class)
+            .addMappings(mapper -> {
+              mapper.map(AddressCepDTO::getCity, AddressDTO::setCity);
+              mapper.map(AddressCepDTO::getLogradouro, AddressDTO::setLogradouro);
+              mapper.map(AddressCepDTO::getState, AddressDTO::setState);
+              mapper.map(AddressCepDTO::getCep, AddressDTO::setCep);
+              mapper.map(AddressCepDTO::getComplement, AddressDTO::setComplement);
+            });
+    
+        return modelMapper.map(addressCepDTO, AddressDTO.class);
+    } 
+
     @GetMapping("user/{userId}")
     public ResponseEntity<List<AddressDTO>> findAllByUserId(@PathVariable Long userId) {
         List<AddressDTO> addresses = addressService.findByUserId(userId).stream()
@@ -45,4 +59,11 @@ public class AddressController extends CrudController<Address, AddressDTO, Long>
                 .collect(Collectors.toList());
         return ResponseEntity.ok(addresses);
     }
+
+    @GetMapping("validate/{cep}")
+    public ResponseEntity<AddressDTO> validateAndFetchCep(@PathVariable String cep) {
+      AddressCepDTO addressCepDTO = addressService.getCepData(cep);
+  
+      return ResponseEntity.ok(convertToResponseCepDto(addressCepDTO));
+    } 
 }

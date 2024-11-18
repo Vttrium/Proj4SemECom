@@ -1,8 +1,6 @@
 package br.pedroS.utfpr.FinesWoodW.server.dto;
 
 import jakarta.validation.constraints.NotNull;
-
-import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,23 +8,23 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
-
+public class AddressCepDTO {
     private Long id;
 
     @NotNull
-    private String name;
+    private String cep;
 
     @NotNull
-    private String description;
+    private String state;
 
     @NotNull
-    private String urlImage;
+    private String city;
+
+    private String complement;
 
     @NotNull
-    private BigDecimal price;
+    private String logradouro;
 
-    private CategoryDTO category;
-
-    private ThemeDTO theme;
+    @NotNull
+	private UserResponseDTO user;
 }

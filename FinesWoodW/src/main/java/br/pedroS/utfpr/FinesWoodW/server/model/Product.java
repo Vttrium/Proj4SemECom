@@ -28,6 +28,9 @@ public class Product {
     private String description;
 
     @NotNull
+    private String urlImage;
+
+    @NotNull
     private BigDecimal price;
 
     @NotNull
