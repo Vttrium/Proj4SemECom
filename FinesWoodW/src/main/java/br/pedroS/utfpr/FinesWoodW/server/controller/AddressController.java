@@ -1,6 +1,10 @@
 package br.pedroS.utfpr.FinesWoodW.server.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.pedroS.utfpr.FinesWoodW.server.dto.AddressDTO;
@@ -10,23 +14,35 @@ import br.pedroS.utfpr.FinesWoodW.server.service.ICrudService;
 
 @RestController
 @RequestMapping("address")
-public class AddressController extends CrudController<Address, AddressDTO, Long> {
-    private static IAddressService addressService;
-    private static ModelMapper modelMapper;
+public class AddressController extends CrudController<Address, AddressDTO, Long>{
+    private final IAddressService addressService;
+    private final ModelMapper modelMapper;
 
     public AddressController(IAddressService addressService, ModelMapper modelMapper) {
         super(Address.class, AddressDTO.class);
-        AddressController.addressService = addressService;
-        AddressController.modelMapper = modelMapper;
+        this.addressService = addressService;
+        this.modelMapper = modelMapper;
     }
 
     @Override
     protected ICrudService<Address, Long> getService() {
-        return addressService;
+        return this.addressService;
     }
 
     @Override
     protected ModelMapper getModelMapper() {
-        return modelMapper;
+        return this.modelMapper;
+    }
+
+    private AddressDTO convertToResponseDto(Address address) {
+        return modelMapper.map(address, AddressDTO.class);
+    }
+
+    @GetMapping("user/{userId}")
+    public ResponseEntity<List<AddressDTO>> findAllByUserId(@PathVariable Long userId) {
+        List<AddressDTO> addresses = addressService.findByUserId(userId).stream()
+                .map(this::convertToResponseDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(addresses);
     }
 }

@@ -1,5 +1,7 @@
 package br.pedroS.utfpr.FinesWoodW.server.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,4 +25,7 @@ public class Theme {
 
     @NotNull
     private float percentageRise;
+
+    @OneToMany(mappedBy = "theme", cascade = CascadeType.ALL)
+    private List<Product> products;
 }

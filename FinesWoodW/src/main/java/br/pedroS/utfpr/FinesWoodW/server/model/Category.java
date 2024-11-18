@@ -1,5 +1,7 @@
 package br.pedroS.utfpr.FinesWoodW.server.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -20,4 +22,7 @@ public class Category {
     @NotNull
     @Size(min = 2, max = 50)
     private String name;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Product> products;
 }

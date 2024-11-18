@@ -1,7 +1,13 @@
 package br.pedroS.utfpr.FinesWoodW.server.dto;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AddressDTO {
     private Long id;
 
@@ -19,5 +25,6 @@ public class AddressDTO {
     @NotNull
     private String logradouro;
 
-    private UserResponseDTO user;
+    @NotNull
+	private UserResponseDTO user;
 }
