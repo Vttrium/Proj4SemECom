@@ -17,7 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByThemeId(Long themeId);
 
     @Query("SELECT p FROM Product p JOIN p.theme t WHERE "
-      + "(:categoryId IS NULL OR p.category.id IN :categoryIds) AND "
+      + "(:categoryId IS NULL OR p.category.id IN :categoryId) AND "
       + "(:minPrice IS NULL OR p.price >= :minPrice) AND "
       + "(:maxPrice IS NULL OR p.price <= :maxPrice) AND "
       + "(:themeId IS NULL OR t.id IN :themeId)")

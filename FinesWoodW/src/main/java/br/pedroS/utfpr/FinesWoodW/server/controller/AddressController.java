@@ -42,11 +42,11 @@ public class AddressController extends CrudController<Address, AddressDTO, Long>
     private AddressDTO convertToResponseCepDto(AddressCepDTO addressCepDTO) {
         modelMapper.typeMap(AddressCepDTO.class, AddressDTO.class)
             .addMappings(mapper -> {
-              mapper.map(AddressCepDTO::getCity, AddressDTO::setCity);
+              mapper.map(AddressCepDTO::getLocalidade, AddressDTO::setCity);
               mapper.map(AddressCepDTO::getLogradouro, AddressDTO::setLogradouro);
-              mapper.map(AddressCepDTO::getState, AddressDTO::setState);
+              mapper.map(AddressCepDTO::getUf, AddressDTO::setState);
               mapper.map(AddressCepDTO::getCep, AddressDTO::setCep);
-              mapper.map(AddressCepDTO::getComplement, AddressDTO::setComplement);
+              mapper.map(AddressCepDTO::getComplemento, AddressDTO::setComplement);
             });
     
         return modelMapper.map(addressCepDTO, AddressDTO.class);

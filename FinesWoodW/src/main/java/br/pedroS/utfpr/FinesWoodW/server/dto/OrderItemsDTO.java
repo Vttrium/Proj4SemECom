@@ -19,7 +19,5 @@ public class OrderItemsDTO {
     @NotNull
     private BigDecimal price;
 
-    private ProductDTO product;
-
-    private OrderDTO order;
+    private Long productId;
 }

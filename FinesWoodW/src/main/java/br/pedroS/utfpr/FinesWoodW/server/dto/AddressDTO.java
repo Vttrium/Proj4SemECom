@@ -26,5 +26,5 @@ public class AddressDTO {
     private String logradouro;
 
     @NotNull
-	private UserResponseDTO user;
+	private Long userId;
 }

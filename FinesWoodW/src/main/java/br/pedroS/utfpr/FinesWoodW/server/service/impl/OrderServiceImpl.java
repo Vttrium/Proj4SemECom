@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import br.pedroS.utfpr.FinesWoodW.server.model.Order;
+import br.pedroS.utfpr.FinesWoodW.server.model.Product;
 import br.pedroS.utfpr.FinesWoodW.server.repository.OrderRepository;
 import br.pedroS.utfpr.FinesWoodW.server.service.IOrderService;
 
@@ -26,5 +27,14 @@ public class OrderServiceImpl extends CrudServiceImpl<Order, Long>
 
     public List<Order> findByUserId(Long userId) {
         return orderRepository.findByUserId(userId);
+    }
+
+    @Override
+    public Order save(Order order) {
+        order.getOrderItems().forEach(item -> {
+            item.setOrder(order);
+            Product product = productRepository.findBy
+            item.setPrice(product.getPrice());
+        });
     }
 }

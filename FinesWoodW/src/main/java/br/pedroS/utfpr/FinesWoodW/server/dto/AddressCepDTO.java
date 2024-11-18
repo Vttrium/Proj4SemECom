@@ -1,6 +1,5 @@
 package br.pedroS.utfpr.FinesWoodW.server.dto;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,22 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddressCepDTO {
-    private Long id;
-
-    @NotNull
     private String cep;
-
-    @NotNull
-    private String state;
-
-    @NotNull
-    private String city;
-
-    private String complement;
-
-    @NotNull
+    private String bairro;
+    private String complemento;
     private String logradouro;
-
-    @NotNull
-	private UserResponseDTO user;
+    private String localidade;
+    private String estado;
+    private String regiao;
+    private String uf;
 }

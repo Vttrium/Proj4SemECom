@@ -32,9 +32,8 @@ public class OrderItems {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @NotNull
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     @CreationTimestamp

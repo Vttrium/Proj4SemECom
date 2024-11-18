@@ -8,4 +8,5 @@ public interface IOrderService extends
         ICrudService<Order, Long>{
 
         List<Order> findByUserId(Long userId);
+
 }

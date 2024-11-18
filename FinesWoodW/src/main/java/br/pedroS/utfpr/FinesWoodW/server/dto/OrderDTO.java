@@ -24,10 +24,10 @@ public class OrderDTO {
     private Double total;
 
     @NotNull
-	private UserResponseDTO user;
+	private Long userId;
 
     @NotNull
-    private Long shipAddress;
+    private Long shipAddressId;
 
-    private List<OrderDTO> orderItems;
+    private List<OrderItemsDTO> orderItems;
 }

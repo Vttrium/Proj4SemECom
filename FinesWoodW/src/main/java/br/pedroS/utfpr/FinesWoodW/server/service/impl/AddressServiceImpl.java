@@ -18,9 +18,9 @@ public class AddressServiceImpl extends CrudServiceImpl<Address, Long>
     private final AddressRepository addressRepository;
     private final RestTemplate restTemplate;
 
-    public AddressServiceImpl(AddressRepository addressRepository, RestTemplate restTemplate) {
+    public AddressServiceImpl(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
-        this.restTemplate = restTemplate;
+        this.restTemplate = new RestTemplate();
     }
 
     @Override
