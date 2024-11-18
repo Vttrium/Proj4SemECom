@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "tb_product")
 @Getter @Setter
@@ -31,10 +33,12 @@ public class Product {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JsonIgnore
     private Category category;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "theme_id", referencedColumnName = "id")
+    @JsonIgnore
     private Theme theme;
 }
