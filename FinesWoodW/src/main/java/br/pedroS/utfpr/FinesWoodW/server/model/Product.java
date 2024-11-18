@@ -32,13 +32,13 @@ public class Product {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JoinColumn(name = "category_id")
     @JsonIgnore
     private Category category;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "theme_id", referencedColumnName = "id")
+    @JoinColumn(name = "theme_id")
     @JsonIgnore
     private Theme theme;
 }
