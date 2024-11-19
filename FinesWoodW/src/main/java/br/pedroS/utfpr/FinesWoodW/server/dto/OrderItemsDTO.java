@@ -1,7 +1,5 @@
 package br.pedroS.utfpr.FinesWoodW.server.dto;
 
-import java.math.BigDecimal;
-
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +13,6 @@ public class OrderItemsDTO {
 
     @NotNull
     private Integer quantity;
-
-    @NotNull
-    private BigDecimal price;
 
     private Long productId;
 }
