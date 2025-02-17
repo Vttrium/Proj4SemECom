@@ -14,7 +14,7 @@ INSERT INTO tb_theme (name, percentage_rise) VALUES ('Linha Econômica', 5.0);
 INSERT INTO tb_user (name, email, password, created_at, updated_at) VALUES ('user para uso', 'admin1@test.com', '$2a$10$Fa5WZgNHAkOQuOFGN3RO0uvHoVshzYraqHMUEAftVAnyGnuey7QO.', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Inserção dos produtos
-INSERT INTO tb_product (name, description, url_image, price, category_id, theme_id) VALUES ('Mesa de', 'Mesa feita em madeira de alta qualidade com acabamento rústico.', 'https://cdn.prod.website-files.com/58e402075bae7b027b9e16b3/6532b72230d4296fcc858a71_link-grupo-titulo-3.jpg', 1500.00, 2, 2);
+INSERT INTO tb_product (name, description, url_image, price, category_id, theme_id) VALUES ('Mesa de bilar', 'Mesa feita em madeira de alta qualidade com acabamento rústico.', 'https://cdn.prod.website-files.com/58e402075bae7b027b9e16b3/6532b72230d4296fcc858a71_link-grupo-titulo-3.jpg', 1500.00, 2, 2);
 
 INSERT INTO tb_product (name, description, url_image, price, category_id, theme_id) VALUES ('Estante Modular', 'Estante em MDF com montagem personalizada.', 'https://cdn.prod.website-files.com/58e402075bae7b027b9e16b3/6532b72230d4296fcc858a71_link-grupo-titulo-3.jpg', 850.00, 2, 3);
 

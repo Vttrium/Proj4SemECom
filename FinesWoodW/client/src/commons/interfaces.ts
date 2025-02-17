@@ -11,7 +11,7 @@ export interface IUserLogin {
 }
 
 export interface ICategory {
-    id?: number;
+    id: number;
     name: string;
 }
 
@@ -20,7 +20,7 @@ export interface IProduct {
     name: string;
     description: string;
     price: number;
-    imageUrl?: string;
+    urlImage?: string;
     category: ICategory;
 }
 interface ICartItem {

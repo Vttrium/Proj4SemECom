@@ -1,0 +1,77 @@
+.product-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 50px auto;
+    gap: 40px;
+    padding: 20px;
+  }
+  
+  .image-section img {
+    max-width: 450px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .info-section {
+    max-width: 550px;
+  }
+  
+  .info-section h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff6b00; /* Laranja Kabum */
+    margin: 10px 0;
+  }
+  
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .actions select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .actions button {
+    background-color: #0070f3; /* Azul Kabum */
+    color: white;
+    padding: 15px 50px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .actions button:hover {
+    background-color: #0056b3; /* Azul mais escuro no hover */
+  }
+  
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .product-details {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .actions {
+      flex-direction: column;
+    }
+  }
+
+  
+  

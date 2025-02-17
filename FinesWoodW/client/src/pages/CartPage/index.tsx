@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./index.css";
 import CartService from "@/service/CartService";
 import { useAuth } from "@/context/AuthContext";
+import { NavBar } from "@/components/Navbar"; // Importe a Navbar
 
 // Definição da interface CartItem
 interface CartItem {
@@ -76,60 +77,65 @@ export function CartPage() {
     };
 
     return (
-        <div className="cart-container">
-            <h2>🛒 Seu Carrinho</h2>
+        <>
+            {/* Adicionando a Navbar */}
+            <NavBar />
 
-            {loading ? (
-                <p>🔄 Carregando carrinho...</p>
-            ) : cartItems.length === 0 ? (
-                <p className="empty-cart">😕 Seu carrinho está vazio.</p>
-            ) : (
-                <>
-                    <div className="cart-table">
-                        <div className="cart-header">
-                            <span>Produto</span>
-                            <span>Preço</span>
-                            <span>Quantidade</span>
-                            <span>Subtotal</span>
-                            <span>Ação</span>
-                        </div>
+            <div className="cart-container">
+                <h2>🛒 Seu Carrinho</h2>
 
-                        {cartItems.map(item => (
-                            <div className="cart-item" key={item.id}>
-                                <div className="product-info">
-                                    <img src={item.imageUrl || "/src/assets/default_product.jpg"} alt={item.name} />
-                                    <span>{item.name}</span>
-                                </div>
-                                <span>R$ {item.price.toFixed(2)}</span>
-                                <select
-                                    value={item.quantity}
-                                    onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value))}
-                                >
-                                    {[1, 2, 3, 4, 5].map(qty => (
-                                        <option key={qty} value={qty}>{qty}</option>
-                                    ))}
-                                </select>
-                                <span>R$ {(item.price * item.quantity).toFixed(2)}</span>
-                                <button className="btn-remove" onClick={() => handleRemoveFromCart(item.id)}>🗑️</button>
+                {loading ? (
+                    <p>🔄 Carregando carrinho...</p>
+                ) : cartItems.length === 0 ? (
+                    <p className="empty-cart">😕 Seu carrinho está vazio.</p>
+                ) : (
+                    <>
+                        <div className="cart-table">
+                            <div className="cart-header">
+                                <span>Produto</span>
+                                <span>Preço</span>
+                                <span>Quantidade</span>
+                                <span>Subtotal</span>
+                                <span>Ação</span>
                             </div>
-                        ))}
-                    </div>
 
-                    <div className="cart-actions">
-                        <Link to="/products" className="btn">🛍️ Continuar Comprando</Link>
-                    </div>
-
-                    <div className="cart-summary">
-                        <h3>Resumo</h3>
-                        <div className="summary-details">
-                            <p>Subtotal: <span>R$ {subtotal.toFixed(2)}</span></p>
-                            <p>Frete: <span>🚚 Grátis</span></p>
-                            <p className="total">Total: <span>R$ {subtotal.toFixed(2)}</span></p>
+                            {cartItems.map(item => (
+                                <div className="cart-item" key={item.id}>
+                                    <div className="product-info">
+                                        <img src={item.imageUrl || "/src/assets/default_product.jpg"} alt={item.name} />
+                                        <span>{item.name}</span>
+                                    </div>
+                                    <span>R$ {item.price.toFixed(2)}</span>
+                                    <select
+                                        value={item.quantity}
+                                        onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value))}
+                                    >
+                                        {[1, 2, 3, 4, 5].map(qty => (
+                                            <option key={qty} value={qty}>{qty}</option>
+                                        ))}
+                                    </select>
+                                    <span>R$ {(item.price * item.quantity).toFixed(2)}</span>
+                                    <button className="btn-remove" onClick={() => handleRemoveFromCart(item.id)}>🗑️</button>
+                                </div>
+                            ))}
                         </div>
-                        <button className="btn btn-checkout">💳 Finalizar Compra</button>
-                    </div>
-                </>
-            )}
-        </div>
+
+                        <div className="cart-actions">
+                            <Link to="/products" className="btn">🛍️ Continuar Comprando</Link>
+                        </div>
+
+                        <div className="cart-summary">
+                            <h3>Resumo</h3>
+                            <div className="summary-details">
+                                <p>Subtotal: <span>R$ {subtotal.toFixed(2)}</span></p>
+                                <p>Frete: <span>🚚 Grátis</span></p>
+                                <p className="total">Total: <span>R$ {subtotal.toFixed(2)}</span></p>
+                            </div>
+                            <button className="btn btn-checkout">💳 Finalizar Compra</button>
+                        </div>
+                    </>
+                )}
+            </div>
+        </>
     );
 }

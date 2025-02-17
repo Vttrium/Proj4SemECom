@@ -12,78 +12,41 @@ export function NavBar() {
   };
 
   return (
-    <div className="bg-light shadow-sm mb-2">
+    <nav className="navbar navbar-expand-lg fixed-top">
       <div className="container">
-        <nav className="navbar navbar-expand-lg navbar-light">
-          <Link to="/" className="navbar-brand d-flex align-items-center">
-            <img src={logo} width="60" alt="Logo" className="me-2" />
-            <span className="font-weight-bold">E-Shop</span>
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <NavLink
-                  to="/"
-                  className={({ isActive }) =>
-                    isActive ? "nav-link active text-primary" : "nav-link"
-                  }
-                >
-                  Home
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink
-                  to="/categories"
-                  className={({ isActive }) =>
-                    isActive ? "nav-link active text-primary" : "nav-link"
-                  }
-                >
-                  Categorias
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink
-                  to="/products"
-                  className={({ isActive }) =>
-                    isActive ? "nav-link active text-primary" : "nav-link"
-                  }
-                >
-                  Produtos
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink
-                  to="/products-v2"
-                  className={({ isActive }) =>
-                    isActive ? "nav-link active text-primary" : "nav-link"
-                  }
-                >
-                  Produtos V2
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <button
-                  className="btn btn-outline-danger"
-                  onClick={onClickLogout}
-                >
-                  <i className="bi bi-box-arrow-right me-2"></i> Sair
-                </button>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <Link className="navbar-brand" to="/">
+          <img src={logo} alt="Logo" className="logo" />
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/">Home</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/products">Produtos</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/categories">Categorias</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/cart">Carrinho</NavLink>
+            </li>
+            <li className="nav-item">
+              <button className="btn btn-outline-danger" onClick={onClickLogout}>
+                <i className="bi bi-box-arrow-right me-2"></i> Sair
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </nav>
   );
 }

@@ -1,4 +1,4 @@
-import { NavBar } from "@/components/NavBar";
+import { NavBar } from "@/components/Navbar";
 import AuthService from "@/service/AuthService";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
