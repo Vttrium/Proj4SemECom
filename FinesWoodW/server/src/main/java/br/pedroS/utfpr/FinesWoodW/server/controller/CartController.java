@@ -1,15 +1,17 @@
 package br.pedroS.utfpr.FinesWoodW.server.controller;
 
-import br.pedroS.utfpr.FinesWoodW.server.dto.CartItemDTO;
-import br.pedroS.utfpr.FinesWoodW.server.model.CartItem;
-import br.pedroS.utfpr.FinesWoodW.server.service.CartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import br.pedroS.utfpr.FinesWoodW.server.dto.CartDTO;
+import br.pedroS.utfpr.FinesWoodW.server.model.Cart;
+import br.pedroS.utfpr.FinesWoodW.server.service.CartService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/cart")
+@CrossOrigin(origins = "*")
 public class CartController {
 
     private final CartService cartService;
@@ -19,24 +21,31 @@ public class CartController {
     }
 
     @GetMapping("/{userId}")
-    public List<CartItem> getCart(@PathVariable Long userId) {
-        return cartService.getCart(userId);
+    public ResponseEntity<List<Cart>> getCartByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(cartService.getCartByUserId(userId));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addToCart(@RequestBody CartItemDTO cartItemDTO) {
-        CartItem cartItem = new CartItem();
-        cartItem.setUserId(cartItemDTO.getUserId());
-        cartItem.setProductId(cartItemDTO.getProductId());
-        cartItem.setQuantity(cartItemDTO.getQuantity());
-
-        cartService.addToCart(cartItem);
-        return ResponseEntity.ok("Produto adicionado ao carrinho!");
+    public ResponseEntity<Cart> addToCart(@RequestBody CartDTO cartDTO) {
+        Cart addedItem = cartService.addToCart(cartDTO.getUserId(), cartDTO.getProductId(), cartDTO.getQuantity());
+        return ResponseEntity.ok(addedItem);
     }
 
-    @DeleteMapping("/remove/{id}")
-    public ResponseEntity<String> removeFromCart(@PathVariable Long id) {
-        cartService.removeFromCart(id);
-        return ResponseEntity.ok("Produto removido do carrinho!");
+    @PutMapping("/update/{cartId}")
+    public ResponseEntity<Void> updateCart(@PathVariable Long cartId, @RequestBody int quantity) {
+        cartService.updateCart(cartId, quantity);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/remove/{cartId}")
+    public ResponseEntity<Void> removeFromCart(@PathVariable Long cartId) {
+        cartService.removeFromCart(cartId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/merge/{userId}")
+    public ResponseEntity<Void> mergeLocalCart(@PathVariable Long userId, @RequestBody List<CartDTO> localCartItems) {
+        cartService.mergeLocalCartToUser(userId, localCartItems);
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,11 +1,14 @@
 package br.pedroS.utfpr.FinesWoodW.server.repository;
 
 
-import br.pedroS.utfpr.FinesWoodW.server.model.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import br.pedroS.utfpr.FinesWoodW.server.model.Cart;
+
 import java.util.List;
 
-public interface CartRepository extends JpaRepository<CartItem, Long> {
-    List<CartItem> findByUserId(Long userId);
+@Repository
+public interface CartRepository extends JpaRepository<Cart, Long> {
+    List<Cart> findByUserId(Long userId);
 }
-

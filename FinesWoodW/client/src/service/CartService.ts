@@ -1,51 +1,90 @@
-import axios from "axios";
+import api from "@/lib/axios";
 
-const API_URL = "http://localhost:8080/cart";
+interface CartItem {
+  id?: number; // ID opcional (somente para usuários autenticados)
+  userId?: number; // Pode ser null para usuários não autenticados
+  productId: number;
+  quantity: number;
+}
 
-const CartService = {
-  async addToCart(userId: number, productId: number, quantity: number) {
-    const token = localStorage.getItem("token");
-    return axios.post(
-      `${API_URL}/add`,
-      { userId, productId, quantity },
-      {
-        headers: {
-          Authorization: `Bearer ${token ? JSON.parse(token) : ""}`,
-        },
-      }
-    );
-  },
+class CartService {
+  private static LOCAL_CART_KEY = "cart";
 
-  async getCart(userId: number) {
-    const token = localStorage.getItem("token");
-    return axios.get(`${API_URL}/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token ? JSON.parse(token) : ""}`,
-      },
-    });
-  },
+  /**
+   * Obtém o carrinho do usuário autenticado ou do localStorage
+   */
+  static async getCart(userId: number | null): Promise<CartItem[]> {
+    if (userId) {
+      const response = await api.get<CartItem[]>(`/cart/${userId}`);
+      return response.data;
+    }
 
-  async updateCart(userId: number, productId: number, quantity: number) {
-    const token = localStorage.getItem("token");
-    return axios.put(
-      `${API_URL}/update`,
-      { userId, productId, quantity },
-      {
-        headers: {
-          Authorization: `Bearer ${token ? JSON.parse(token) : ""}`,
-        },
-      }
-    );
-  },
+    return JSON.parse(localStorage.getItem(this.LOCAL_CART_KEY) || "[]");
+  }
 
-  async removeFromCart(userId: number, productId: number) {
-    const token = localStorage.getItem("token");
-    return axios.delete(`${API_URL}/remove/${userId}/${productId}`, {
-      headers: {
-        Authorization: `Bearer ${token ? JSON.parse(token) : ""}`,
-      },
-    });
-  },
-};
+  /**
+   * Adiciona um item ao carrinho local ou na API
+   */
+  static async addToCart(userId: number | null, productId: number, quantity: number) {
+    if (userId) {
+      return api.post<CartItem>("/cart/add", { userId, productId, quantity });
+    }
+
+    const localCart: CartItem[] = JSON.parse(localStorage.getItem(this.LOCAL_CART_KEY) || "[]");
+    const existingItem = localCart.find((item) => item.productId === productId);
+
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      localCart.push({ productId, quantity });
+    }
+
+    localStorage.setItem(this.LOCAL_CART_KEY, JSON.stringify(localCart));
+  }
+
+  /**
+   * Atualiza a quantidade de um item no carrinho local ou na API
+   */
+  static async updateCart(cartId: number | null, productId: number, quantity: number, userId: number | null) {
+    if (userId && cartId) {
+      return api.put(`/cart/update/${cartId}`, quantity, {
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const localCart: CartItem[] = JSON.parse(localStorage.getItem(this.LOCAL_CART_KEY) || "[]");
+    const item = localCart.find((item) => item.productId === productId);
+
+    if (item) {
+      item.quantity = quantity;
+      localStorage.setItem(this.LOCAL_CART_KEY, JSON.stringify(localCart));
+    }
+  }
+
+  /**
+   * Remove um item do carrinho local ou na API
+   */
+  static async removeFromCart(cartId: number | null, productId: number, userId: number | null) {
+    if (userId && cartId) {
+      return api.delete(`/cart/remove/${cartId}`);
+    }
+
+    const localCart: CartItem[] = JSON.parse(localStorage.getItem(this.LOCAL_CART_KEY) || "[]");
+    const updatedCart = localCart.filter((item) => item.productId !== productId);
+    localStorage.setItem(this.LOCAL_CART_KEY, JSON.stringify(updatedCart));
+  }
+
+  /**
+   * Mescla o carrinho local com o do usuário autenticado após login
+   */
+  static async mergeLocalCart(userId: number) {
+    const localCart: CartItem[] = JSON.parse(localStorage.getItem(this.LOCAL_CART_KEY) || "[]");
+
+    if (localCart.length > 0) {
+      await api.post(`/cart/merge/${userId}`, localCart);
+      localStorage.removeItem(this.LOCAL_CART_KEY);
+    }
+  }
+}
 
 export default CartService;

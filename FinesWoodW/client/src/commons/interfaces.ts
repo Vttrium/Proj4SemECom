@@ -23,10 +23,3 @@ export interface IProduct {
     urlImage?: string;
     category: ICategory;
 }
-interface ICartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  imageUrl?: string;
-}

@@ -58,6 +58,7 @@ public class WebSecurity {
                 authorize
                         .requestMatchers(antMatcher("/h2-console/**")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.POST, "/users/**")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/cart/**")).permitAll()
                         .requestMatchers(antMatcher("/error/**")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/themes/**")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/categories/**")).permitAll()
