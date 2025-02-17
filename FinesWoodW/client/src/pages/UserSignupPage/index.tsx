@@ -7,13 +7,13 @@ import { Link, useNavigate } from "react-router-dom";
 
 export function UserSignupPage () {
     const [form, setForm] = useState<IUserSignup>({
-        displayName: '',
-        username: '',
+        name: '',
+        email: '',
         password: '',
     });
     const [errors, setErrors] = useState({
-        displayName: '',
-        username: '',
+        name: '',
+        email: '',
         password: '',
     });
     const [pendingApiCall, setPendingApiCall] = useState(false);
@@ -61,6 +61,9 @@ export function UserSignupPage () {
     return (
         <main className="form-signup w-100 m-auto">
             <form>
+                <div className="text-center d-flex justify-content-center">
+                    <img src="/src\assets/logo.png" alt="FWW Logo" width="80" />
+                </div>
                 <div className="text-center">
                     <h1 className="h3 mb-3 fw-normal">
                         Novo Usuário
@@ -70,29 +73,29 @@ export function UserSignupPage () {
                 <div className="form-floating">
                     <input
                         type="text"
-                        className={errors.displayName ? "form-control is-invalid" : "form-control"}
+                        className={errors.name ? "form-control is-invalid" : "form-control"}
                         placeholder="Informe o seu nome"
-                        name="displayName"
-                        id="displayName"
+                        name="name"
+                        id="name"
                         onChange={onChange}
-                        value={form.displayName}
+                        value={form.name}
                     />
-                    <label htmlFor="displayName">Informe o seu nome</label>
-                    {errors.displayName && (<div className="invalid-feedback">{errors.displayName}</div>)}
+                    <label htmlFor="name">Informe o seu nome</label>
+                    {errors.name && (<div className="invalid-feedback">{errors.name}</div>)}
                 </div>
 
                 <div className="form-floating">
                     <input
                         type="text"
-                        className={errors.username ? "form-control is-invalid" : "form-control"}
-                        placeholder="Informe o seu usuário"
-                        name="username"
-                        id="username"
+                        className={errors.email ? "form-control is-invalid" : "form-control"}
+                        placeholder="Informe o seu email"
+                        name="email"
+                        id="email"
                         onChange={onChange}
-                        value={form.username}
+                        value={form.email}
                     />
-                    <label htmlFor="username">Informe o seu usuário</label>
-                    {errors.username && (<div className="invalid-feedback">{errors.username}</div>)}
+                    <label htmlFor="email">Informe o seu email</label>
+                    {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
                 </div>
 
                 <div className="form-floating">
@@ -121,7 +124,7 @@ export function UserSignupPage () {
             </form>
             <div className="text-center">
                 Já possui cadastro?
-                <Link className="link-primary" to="/login">Login</Link>
+                <Link className="link-primary" to="/login"> Login</Link>
             </div>
         </main>
     )

@@ -1,26 +1,63 @@
+/* index.css */
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    font-family: Arial, sans-serif;
+}
+
 .form-signup {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
     max-width: 400px;
-    padding: 15px;
 }
 
-.form-signup .form-floating:focus-within {
-    z-index: 2;
+h1 {
+    color: #333;
 }
 
-.form-signup input {
-    margin-bottom: 10px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+.form-floating {
+    margin-bottom: 1rem;
 }
 
-.form-signup input[type="text"] {
-    margin-bottom: 10px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+.form-control {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
 }
 
-.form-signup input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+.btn-primary {
+    background-color: #2575fc;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #6a11cb;
+}
+
+.alert {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.link-primary {
+    color: #2575fc;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link-primary:hover {
+    text-decoration: underline;
 }

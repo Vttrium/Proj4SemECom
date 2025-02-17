@@ -1,0 +1,271 @@
+/* Reset e configurações globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #886d6d;
+  padding: 15px;
+}
+
+.navbar-brand img {
+  width: 60px;
+}
+
+.navbar-nav .nav-link {
+  color: #fff !important;
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ff4d00 !important;
+}
+
+/* Banner principal com carrossel */
+.banner-container {
+  width: 100%;
+  min-height: 300px; /* Ajuste conforme necessário */
+  margin-top: 450px; /* Dá um pequeno espaçamento para evitar sobreposição */
+  position: relative;
+  z-index: 1; /* Garante que o banner fique acima de conteúdos abaixo */
+}
+
+.carousel {
+  width: 100%;
+}
+
+.carousel img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.banner-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.banner-content h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.banner-content p {
+  font-size: 1.2rem;
+}
+
+/* Botões */
+.btn-primary {
+  background-color: #ff4d00;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #e04300;
+}
+
+/* Seção de Categorias */
+.categories-container {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.categories-container h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.category-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 200px;
+}
+
+.category-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Lista de produtos */
+.products-container {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.products-container h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.products-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.product-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-card h5 {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.product-card .price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ff4d00;
+}
+
+.product-card button {
+  margin-top: 10px;
+  padding: 8px;
+  background-color: #ff4d00;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.product-card button:hover {
+  background-color: #e04300;
+}
+
+/* Rodapé */
+footer {
+  width: 100%;
+  background-color: #000;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #ff4d00;
+}
+
+/* Garante que o conteúdo abaixo do navbar não fique escondido */
+body {
+  padding-top: 70px; /* Ajusta conforme a altura real do navbar */
+}
+
+.carousel-inner img {
+  width: 100%;
+  height: 400px; /* Mantém uma altura fixa para um layout mais bonito */
+  object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+}
+/* Contêiner do carrossel de produtos */
+.products-slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px auto;
+  max-width: 1200px;
+}
+
+/* Lista de produtos no carrossel */
+.products-list {
+  display: flex;
+  gap: 20px;
+  overflow: hidden;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Botões de navegação do carrossel */
+.slider-btn {
+  background: #ff4d00;
+  color: white;
+  border: none;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.slider-btn:hover {
+  background: #e04300;
+}
+
+.slider-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Cartão de produto */
+.product-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 220px;
+}
+
+@media (max-width: 768px) {
+  .carousel img {
+    height: 300px;
+  }
+  
+  .products-list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product-card {
+    width: 90%;
+  }
+}
+

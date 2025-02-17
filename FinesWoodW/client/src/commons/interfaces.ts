@@ -1,12 +1,12 @@
 
 export interface IUserSignup {
-    displayName: string;
-    username: string;
+    name: string;
+    email: string;
     password: string;
 }
 
 export interface IUserLogin {
-    username: string;
+    email: string;
     password: string;
 }
 
@@ -20,5 +20,13 @@ export interface IProduct {
     name: string;
     description: string;
     price: number;
+    imageUrl?: string;
     category: ICategory;
+}
+interface ICartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  imageUrl?: string;
 }

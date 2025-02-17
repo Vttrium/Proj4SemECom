@@ -15,10 +15,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import br.pedroS.utfpr.FinesWoodW.server.service.AuthService;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
+import java.util.List;
 
 @EnableWebSecurity
 @Configuration
@@ -43,15 +48,11 @@ public class WebSecurity {
 
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
-        http.headers(headers ->
-                headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
-
+        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
         http.csrf(AbstractHttpConfigurer::disable);
-
+        http.cors(cors -> corsConfigurationSource());
         http.exceptionHandling(exceptionHandling ->
                 exceptionHandling.authenticationEntryPoint(authenticationEntryPoint));
-
-        http.cors(AbstractHttpConfigurer::disable);
 
         http.authorizeHttpRequests(authorize ->
                 authorize
@@ -76,5 +77,20 @@ public class WebSecurity {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT"));
+        configuration.setAllowedHeaders(List.of("Authorization","x-xsrf-token",
+                "Access-Control-Allow-Headers", "Origin",
+                "Accept", "X-Requested-With", "Content-Type",
+                "Access-Control-Request-Method",
+                "Access-Control-Request-Headers", "Auth-Id-Token"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+    return source;
     }
 }
