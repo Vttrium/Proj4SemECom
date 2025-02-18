@@ -1,10 +1,12 @@
+import { useEffect, useState } from "react";
 import { IProduct, ICategory } from "@/commons/interfaces";
 import ProductService from "@/service/ProductService";
 import CategoryService from "@/service/CategoryService";
 import CartService from "@/service/CartService";
-import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { NavBar } from "@/components/Navbar";
 import "./index.css";
+import { Link } from "react-router-dom";
 
 export function ProductListPage() {
   const { user } = useAuth();
@@ -12,6 +14,7 @@ export function ProductListPage() {
   const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>(""); // Estado para o campo de busca
   const [apiError, setApiError] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
 
@@ -26,10 +29,13 @@ export function ProductListPage() {
         setApiMessage("");
         setApiError(false);
       }, 3000);
-
       return () => clearTimeout(timer);
     }
-  }, [apiMessage]); // Dispara quando a mensagem muda
+  }, [apiMessage]);
+
+  useEffect(() => {
+    applyFilters();
+  }, [searchTerm, selectedCategory, products]); // Atualiza a lista filtrada ao mudar os filtros
 
   const loadProducts = async () => {
     setApiError(false);
@@ -53,19 +59,25 @@ export function ProductListPage() {
     }
   };
 
-  const handleFilterChange = (categoryId: string) => {
-    setSelectedCategory(categoryId);
-    if (categoryId) {
-      const filtered = products.filter(
+  const applyFilters = () => {
+    let filtered = [...products];
+
+    if (selectedCategory) {
+      filtered = filtered.filter(
         (product) =>
           product.category &&
           product.category.id !== undefined &&
-          product.category.id.toString() === categoryId
+          product.category.id.toString() === selectedCategory
       );
-      setFilteredProducts(filtered);
-    } else {
-      setFilteredProducts(products);
     }
+
+    if (searchTerm) {
+      filtered = filtered.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    setFilteredProducts(filtered);
   };
 
   const handleAddToCart = async (productId?: number) => {
@@ -81,8 +93,6 @@ export function ProductListPage() {
       return;
     }
 
-    console.log("✅ Adicionando ao carrinho:", { userId: user.id, productId, quantity: 1 });
-
     try {
       await CartService.addToCart(user.id, productId, 1);
       setApiMessage("✅ Produto adicionado ao carrinho!");
@@ -95,51 +105,67 @@ export function ProductListPage() {
   };
 
   return (
-    <main className="product-list-container">
-      <h2 className="text-center">Lista de Produtos</h2>
+    <>
+      <NavBar />
+      <main className="product-list-container">
+        <h2 className="text-center">Lista de Produtos</h2>
 
-      {apiMessage && (
-        <div className={`alert ${apiError ? "alert-danger" : "alert-success"}`}>
-          {apiMessage}
-        </div>
-      )}
-
-      <div className="filter-container">
-        <label htmlFor="categoryFilter">Filtrar por categoria:</label>
-        <select
-          id="categoryFilter"
-          value={selectedCategory}
-          onChange={(e) => handleFilterChange(e.target.value)}
-        >
-          <option value="">Todas</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id?.toString()}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="product-grid">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <div key={product.id} className="product-card">
-              <img src={product.urlImage || "/placeholder.jpg"} alt={product.name} />
-              <h3>{product.name}</h3>
-              <p className="price">R$ {product.price.toFixed(2)}</p>
-              <p className="category">{product.category?.name || "Sem categoria"}</p>
-
-              <div className="actions">
-                <button className="add-to-cart-btn btn" onClick={() => handleAddToCart(product.id)}>
-                  Adicionar ao Carrinho
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="no-products">Nenhum produto encontrado.</p>
+        {apiMessage && (
+          <div className={`alert ${apiError ? "alert-danger" : "alert-success"}`}>
+            {apiMessage}
+          </div>
         )}
-      </div>
-    </main>
+
+        <div className="filter-container">
+          <label htmlFor="searchInput">Buscar produto:</label>
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Digite o nome do produto..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
+          <label htmlFor="categoryFilter">Filtrar por categoria:</label>
+          <select
+            id="categoryFilter"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="">Todas</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id?.toString()}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="product-grid">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <div key={product.id} className="product-card">
+                <Link to={`/product-detail/${product.id}`}>
+                  <img src={product.urlImage || "/placeholder.jpg"} alt={product.name} />
+                </Link>
+                <h3>
+                  <Link to={`/product-detail/${product.id}`}>{product.name}</Link>
+                </h3>
+                <p className="price">R$ {product.price.toFixed(2)}</p>
+                <p className="category">{product.category?.name || "Sem categoria"}</p>
+
+                <div className="actions">
+                  <button className="add-to-cart-btn btn" onClick={() => handleAddToCart(product.id)}>
+                    Adicionar ao Carrinho
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="no-products">Nenhum produto encontrado.</p>
+          )}
+        </div>
+      </main>
+    </>
   );
 }

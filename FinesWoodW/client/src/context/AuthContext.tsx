@@ -10,6 +10,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -22,6 +23,7 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
+  const isAuthenticated = !!user; // ✅ Se `user` existir, significa que está autenticado
 
   // Carregar usuário autenticado ao iniciar
   useEffect(() => {
@@ -33,7 +35,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await axiosInstance.post("/auth/login", { email, password });
+      const response = await axiosInstance.post("/login", { email, password });
       const userData = response.data;
 
       setUser(userData);
@@ -53,11 +55,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
+    localStorage.clear(); // 🔹 Remove tudo do localStorage para evitar inconsistências
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

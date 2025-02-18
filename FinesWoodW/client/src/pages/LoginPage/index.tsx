@@ -1,10 +1,9 @@
-import { ChangeEvent, useState, useContext } from "react";
+import { ChangeEvent, useState } from "react";
 import "./index.css";
 import { IUserLogin } from "@/commons/interfaces.ts";
-import AuthService from "@/service/AuthService";
 import { ButtonWithProgress } from "@/components/ButtonWithProgress";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "@/context/AuthContext"; // Importa o contexto de autenticação
+import { useAuth } from "@/context/AuthContext"; // Importa o contexto de autenticação
 
 export function LoginPage() {
     const [form, setForm] = useState<IUserLogin>({
@@ -16,7 +15,7 @@ export function LoginPage() {
     const [apiError, setApiError] = useState(false);
     const [apiSuccess, setApiSuccess] = useState(false);
     const navigate = useNavigate();
-    const authContext = useContext(AuthContext); // Acessa o contexto de autenticação
+    const { login } = useAuth(); // Acessa a função login do contexto
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -31,19 +30,12 @@ export function LoginPage() {
         setApiError(false);
 
         try {
-            const response = await AuthService.login(form);
+            await login(form.email, form.password); // Usando a função login do contexto
 
-            if (response.status === 200) {
-                const userData = response.data; // Dados do usuário autenticado
-                authContext?.login(userData); // Salva o usuário no contexto
-                setApiSuccess(true);
-                
-                setTimeout(() => {
-                    navigate("/");
-                }, 2000);
-            } else {
-                throw new Error("Erro ao autenticar");
-            }
+            setApiSuccess(true);
+            setTimeout(() => {
+                navigate("/"); // Redireciona para a página inicial após sucesso
+            }, 2000);
         } catch (error) {
             setApiError(true);
         } finally {

@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 import CartService from "@/service/CartService";
 import ProductService from "@/service/ProductService";
 import { useAuth } from "@/context/AuthContext";
-import { IProduct } from "@/commons/interfaces.ts"
+import { IProduct } from "@/commons/interfaces";
+import "./index.css";
+import { NavBar } from "@/components/Navbar";
+
 
 interface CartItem {
   id?: number;
@@ -12,7 +15,7 @@ interface CartItem {
   quantity: number;
 }
 
-const CartPage = () => {
+export function CartPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [productDetails, setProductDetails] = useState<Record<number, IProduct>>({});
   const [loading, setLoading] = useState(true);
@@ -31,11 +34,13 @@ const CartPage = () => {
         setCartItems(cart);
 
         // Buscar detalhes dos produtos
-        const productData: Record<number, Product> = {};
+        const productData: Record<number, IProduct> = {};
         for (const item of cart) {
           if (!productDetails[item.productId]) {
-            const product = await ProductService.getProductById(item.productId);
-            productData[item.productId] = product;
+            const response = await ProductService.findById(item.productId);
+            if (response.status === 200) {
+              productData[item.productId] = response.data;
+            }
           }
         }
         setProductDetails((prev) => ({ ...prev, ...productData }));
@@ -65,9 +70,9 @@ const CartPage = () => {
   /**
    * Remove um item do carrinho.
    */
-  const handleRemoveItem = async (cartItemId: number) => {
+  const handleRemoveItem = async (cartId: number, productId: number) => {
     try {
-      await CartService.removeFromCart(cartItemId);
+      await CartService.removeFromCart(cartId, productId, user?.id || null);
       handleCartUpdate();
     } catch (error) {
       console.error("Erro ao remover item do carrinho:", error);
@@ -77,13 +82,13 @@ const CartPage = () => {
   /**
    * Atualiza a quantidade de um item no carrinho.
    */
-  const handleQuantityChange = async (cartItemId: number, newQuantity: number) => {
+  const handleQuantityChange = async (cartId: number, productId: number, newQuantity: number) => {
     if (newQuantity <= 0) {
-      handleRemoveItem(cartItemId);
+      handleRemoveItem(cartId, productId);
       return;
     }
     try {
-      await CartService.updateCart(cartItemId, newQuantity);
+      await CartService.updateCart(cartId, productId, newQuantity, user?.id || null);
       handleCartUpdate();
     } catch (error) {
       console.error("Erro ao atualizar quantidade do item:", error);
@@ -109,48 +114,73 @@ const CartPage = () => {
   };
 
   return (
-    <div className="cart-page">
-      <h1>Seu Carrinho</h1>
-      {loading ? (
-        <p>Carregando...</p>
-      ) : cartItems.length === 0 ? (
-        <p>Seu carrinho está vazio.</p>
-      ) : (
-        <div className="cart-items">
-          {cartItems.map((item) => {
-            const product = productDetails[item.productId];
-
-            return (
-              <div key={item.productId} className="cart-item">
-                {product ? (
-                  <>
-                    <img src={product.image} alt={product.name} className="product-image" />
-                    <div className="product-info">
-                      <h3>{product.name}</h3>
-                      <p>Preço: R$ {product.price.toFixed(2)}</p>
-                      <div className="quantity-control">
-                        <button onClick={() => handleQuantityChange(item.id!, item.quantity - 1)}>-</button>
-                        <span>{item.quantity}</span>
-                        <button onClick={() => handleQuantityChange(item.id!, item.quantity + 1)}>+</button>
-                      </div>
-                      <button onClick={() => handleRemoveItem(item.id!)} className="remove-button">
-                        Remover
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <p>Carregando detalhes do produto...</p>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
-      <button onClick={handleCheckout} disabled={cartItems.length === 0}>
-        Finalizar Compra
-      </button>
-    </div>
-  );
-};
-
-export default CartPage;
+    <>
+      <NavBar /> {/* Navbar sempre visível no topo */}
+      <div className="cart-page">
+        <h1>Seu Carrinho</h1>
+        {loading ? (
+          <p>Carregando...</p>
+        ) : cartItems.length === 0 ? (
+          <p>Seu carrinho está vazio.</p>
+        ) : (
+          <>
+            <table className="cart-items">
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Preço</th>
+                  <th>Quantidade</th>
+                  <th>Subtotal</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cartItems.map((item) => {
+                  const product = productDetails[item.productId];
+    
+                  return (
+                    <tr key={item.productId} className="cart-item">
+                      <td>
+                        {product ? (
+                          <div style={{ display: "flex", alignItems: "center" }}>
+                            <img src={product.urlImage} alt={product.name} className="product-image" />
+                            <span className="product-info">{product.name}</span>
+                          </div>
+                        ) : (
+                          "Carregando..."
+                        )}
+                      </td>
+                      <td>R$ {product?.price.toFixed(2)}</td>
+                      <td>
+                        <div className="quantity-control">
+                          <button onClick={() => handleQuantityChange(item.id!, item.productId, item.quantity - 1)}>-</button>
+                          <span>{item.quantity}</span>
+                          <button onClick={() => handleQuantityChange(item.id!, item.productId, item.quantity + 1)}>+</button>
+                        </div>
+                      </td>
+                      <td>R$ {(product?.price * item.quantity).toFixed(2)}</td>
+                      <td>
+                        <button onClick={() => handleRemoveItem(item.id!, item.productId)} className="remove-button">
+                          Remover
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+  
+            <div className="cart-summary">
+              <p>Subtotal: R$ {cartItems.reduce((acc, item) => acc + (productDetails[item.productId]?.price || 0) * item.quantity, 0).toFixed(2)}</p>
+              <p>Frete: Grátis</p>
+              <p>Total: R$ {cartItems.reduce((acc, item) => acc + (productDetails[item.productId]?.price || 0) * item.quantity, 0).toFixed(2)}</p>
+              <button onClick={handleCheckout} className="checkout-button" disabled={cartItems.length === 0}>
+                Finalizar Compra
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </>
+  );    
+}

@@ -23,7 +23,7 @@ export function HomePage() {
 
   const loadProducts = async () => {
     const response = await ProductService.findAll();
-    if (response.status === 200) {
+    if (response.status == 200) {
       setProducts(response.data);
       setApiError("");
     } else {

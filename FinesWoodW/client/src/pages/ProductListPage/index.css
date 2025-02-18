@@ -1,7 +1,8 @@
 /* Estiliza a área geral da página para garantir espaçamento da navbar */
 .product-list-container {
     max-width: 1200px;
-    margin: 500px auto 20px; /* Empurra a lista para baixo */
+    margin: 400px auto 20px; /* Empurra a lista para baixo */
+    margin-left: 90px;
     padding: 20px;
   }
   
@@ -100,5 +101,48 @@
     text-align: center;
     font-size: 18px;
     color: gray;
+  }
+  
+  .filter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    margin-right: 90px;
+  }
+  
+  .filter-container label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  #searchInput,
+  #categoryFilter {
+    width: 100%;
+    max-width: 360px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  #searchInput:focus,
+  #categoryFilter:focus {
+    border-color: #007bff;
+  }
+  
+  @media (min-width: 768px) {
+    .filter-container {
+      flex-direction: row;
+      justify-content: center;
+    }
+  
+    #searchInput,
+    #categoryFilter {
+      width: 300px;
+    }
   }
   

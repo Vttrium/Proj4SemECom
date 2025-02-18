@@ -64,7 +64,7 @@ class CartService {
   /**
    * Remove um item do carrinho local ou na API
    */
-  static async removeFromCart(cartId: number | null, productId: number, userId: number | null) {
+  static async removeFromCart(cartId: number, productId: number | null, userId: number | null) {
     if (userId && cartId) {
       return api.delete(`/cart/remove/${cartId}`);
     }

@@ -60,7 +60,6 @@ public class WebSecurity {
                         .requestMatchers(antMatcher(HttpMethod.POST, "/users/**")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.POST, "/cart/**")).permitAll()
                         .requestMatchers(antMatcher("/error/**")).permitAll()
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/themes/**")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/categories/**")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/products/**")).permitAll()
 
@@ -83,13 +82,15 @@ public class WebSecurity {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
+
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT"));
         configuration.setAllowedHeaders(List.of("Authorization","x-xsrf-token",
                 "Access-Control-Allow-Headers", "Origin",
                 "Accept", "X-Requested-With", "Content-Type",
                 "Access-Control-Request-Method",
                 "Access-Control-Request-Headers", "Auth-Id-Token"));
+                configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
     return source;
