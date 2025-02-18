@@ -89,6 +89,12 @@ export function LoginPage() {
                         text="Login"
                         onClick={onClickLogin}
                     />
+                    <button
+                        className="w-100 btn btn-lg btn-secondary"
+                        onClick={() => navigate("/")}
+                    >
+                        Ir para a Homepage
+                    </button>
                 </div>
             </form>
             <div className="text-center">

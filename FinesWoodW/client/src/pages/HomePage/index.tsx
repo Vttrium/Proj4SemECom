@@ -88,7 +88,7 @@ export function HomePage() {
             <ul className="navbar-nav ms-auto">
               <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/products">Produtos</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/categories">Categorias</Link></li>
+              <li className="nav-item"><Link className="nav-link" to="/address">Endereços</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/cart">Carrinho</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/login">Sair</Link></li>
             </ul>

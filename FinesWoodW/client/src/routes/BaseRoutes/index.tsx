@@ -3,9 +3,9 @@ import { LoginPage } from "@/pages/LoginPage";
 import { UserSignupPage } from "@/pages/UserSignupPage";
 import { Route, Routes } from "react-router-dom";
 import { AuthenticatedRoutes } from "../AuthenticatedRoutes";
-import { CategoryListPage } from "@/pages/CategoryListPage";
+import { AddressListPage } from "@/pages/AddressListPage";
 import { ProductListPage } from "@/pages/ProductListPage";
-import { CategoryFormPage } from "@/pages/CategoryFormPage";
+import { AddressPage } from "@/pages/AddressFormPage";
 import { ProductFormPage } from "@/pages/ProductFormPage";
 import { ProductDetailsPage } from "@/pages/ProductListPageV2/ProductDetailsPage";
 import { CartPage } from "@/pages/CartPage";
@@ -23,15 +23,14 @@ export function BaseRoutes() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/cart/:id" element={<CartPage />} />
         <Route path="/products" element={<ProductListPage />} />
-        <Route path="/categories" element={<CategoryListPage />} />
         
         <Route path="/cart/merge/:id" element={<CartPage />} />
 
         {/* Protected Routes */}
         <Route element={<AuthenticatedRoutes />}>
-
-          <Route path="/categories/new" element={<CategoryFormPage />} />
-          <Route path="/categories/:id" element={<CategoryFormPage />} />
+        
+          <Route path="/address" element={<AddressPage />} />
+          <Route path="/address/:id" element={<AddressListPage />} />
           
           <Route path="/products/new" element={<ProductFormPage />} />
           <Route path="/products/:id" element={<ProductFormPage />} />

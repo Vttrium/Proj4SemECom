@@ -34,7 +34,7 @@ body {
 .banner-container {
   width: 100%;
   min-height: 300px; /* Ajuste conforme necessário */
-  margin-top: 450px; /* Dá um pequeno espaçamento para evitar sobreposição */
+  margin-top: 520px; /* Dá um pequeno espaçamento para evitar sobreposição */
   position: relative;
   z-index: 1; /* Garante que o banner fique acima de conteúdos abaixo */
 }

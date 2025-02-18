@@ -19,6 +19,13 @@
   
   .navbar-light .navbar-nav .btn-outline-danger:hover {
     background-color: #dc3545;
+    text-align: center;
     color: white;
+  }
+
+  .bi{
+    border-radius: 5px;
+    font-size: 16px;
+    margin-right: 0;
   }
   

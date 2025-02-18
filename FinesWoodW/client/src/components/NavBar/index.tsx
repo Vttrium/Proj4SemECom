@@ -34,7 +34,7 @@ export function NavBar() {
               <NavLink className="nav-link" to="/products">Produtos</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/categories">Categorias</NavLink>
+              <NavLink className="nav-link" to="/address">Endereços</NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/cart">Carrinho</NavLink>

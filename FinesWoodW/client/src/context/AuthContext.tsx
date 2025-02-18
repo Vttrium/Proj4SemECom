@@ -22,16 +22,21 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
-  const isAuthenticated = !!user; // ✅ Se `user` existir, significa que está autenticado
-
-  // Carregar usuário autenticado ao iniciar
-  useEffect(() => {
+  const [user, setUser] = useState<User | null>(() => {
+    // 🔹 Carrega o usuário do localStorage ao iniciar
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
+  const isAuthenticated = !!user;
+
+  useEffect(() => {
+    // 🔄 Atualiza o estado do usuário caso esteja salvo no localStorage
+    const storedUser = localStorage.getItem("user");
+    if (storedUser && !user) {
       setUser(JSON.parse(storedUser));
     }
-  }, []);
+  }, [user]);
 
   const login = async (email: string, password: string) => {
     try {
@@ -45,7 +50,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const localCart = JSON.parse(localStorage.getItem("cart") || "[]");
       if (localCart.length > 0) {
         await CartService.mergeLocalCart(userData.id);
-        localStorage.removeItem("cart"); // Limpa o carrinho local após a fusão
+        localStorage.removeItem("cart");
       }
     } catch (error) {
       console.error("❌ Erro ao fazer login:", error);
@@ -55,7 +60,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = () => {
     setUser(null);
-    localStorage.clear(); // 🔹 Remove tudo do localStorage para evitar inconsistências
+    localStorage.removeItem("user"); // 🔹 Remove apenas o usuário, sem limpar tudo
   };
 
   return (

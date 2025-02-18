@@ -1,8 +1,7 @@
 /* Estiliza a área geral da página para garantir espaçamento da navbar */
 .product-list-container {
     max-width: 1200px;
-    margin: 400px auto 20px; /* Empurra a lista para baixo */
-    margin-left: 90px;
+    margin: 800px auto 20px; /* Empurra a lista para baixo */
     padding: 20px;
   }
   
@@ -10,6 +9,7 @@
   .product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+    margin-left: 45px;
     gap: 20px; /* Espaço entre os produtos */
   }
   
@@ -81,6 +81,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    margin-left: 90px;
     margin-bottom: 20px;
   }
   
@@ -134,10 +135,19 @@
     border-color: #007bff;
   }
   
-  @media (min-width: 768px) {
+  @media (min-width: 900px) {
+    .product-list-container {
+      margin-top: 700px;
+    }
+
+    .product-list-container h2 {
+      margin-right: 70px;
+    }
+    
     .filter-container {
       flex-direction: row;
       justify-content: center;
+      gap: 30px;
     }
   
     #searchInput,
