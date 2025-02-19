@@ -1,5 +1,5 @@
 import { IProduct } from "@/commons/interfaces";
-import api from "@/lib/axios";
+import { api } from "@/lib/axios";
 
 const PRODUCT_URL = "/products";
 

@@ -1,4 +1,4 @@
-import api from "@/lib/axios";
+import { api } from "@/lib/axios";
 
 interface CartItem {
   id?: number; // ID opcional (somente para usuários autenticados)
@@ -60,6 +60,12 @@ class CartService {
       localStorage.setItem(this.LOCAL_CART_KEY, JSON.stringify(localCart));
     }
   }
+
+  static async clearCart(userId: number | null) {
+    if (userId) {
+      await api.delete(`/cart/clear/${userId}`);
+    }
+  }  
 
   /**
    * Remove um item do carrinho local ou na API

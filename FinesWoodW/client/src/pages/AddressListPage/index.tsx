@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axiosInstance from "@/lib/axios";
+import {api} from "@/lib/axios.ts" // ✅ Importando AuthService
 import { useAuth } from "@/context/AuthContext";
 
 interface Address {
@@ -26,7 +26,7 @@ export function AddressListPage() {
       setError(null);
 
       try {
-        const response = await axiosInstance.get<Address[]>(`/address/${user.id}`);
+        const response = await api.get<Address[]>(`/address/user/${user.id}`); // ✅ Usando AuthService.api
         setAddresses(response.data);
       } catch (err) {
         setError("Erro ao carregar endereços.");
@@ -45,7 +45,7 @@ export function AddressListPage() {
       {loading && <p>Carregando...</p>}
       {error && <div className="alert alert-danger">{error}</div>}
 
-      {addresses.length === 0 && !loading && <p>Você não possui endereços cadastrados.</p>}
+      {!loading && addresses.length === 0 && <p>Você não possui endereços cadastrados.</p>}
 
       <div className="list-group">
         {addresses.map((address) => (
@@ -54,8 +54,6 @@ export function AddressListPage() {
             <p><strong>Estado:</strong> {address.state}</p>
             <p><strong>Cidade:</strong> {address.city}</p>
             <p><strong>Logradouro:</strong> {address.logradouro}</p>
-            <p><strong>Número:</strong> {address.number}</p>
-            <p><strong>Complemento:</strong> {address.complement || "Nenhum"}</p>
           </div>
         ))}
       </div>

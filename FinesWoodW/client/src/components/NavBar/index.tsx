@@ -1,9 +1,11 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 import logo from "@/assets/logo.png";
 import AuthService from "@/service/AuthService";
 import "./index.css";
 
 export function NavBar() {
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const onClickLogout = () => {
@@ -39,6 +41,14 @@ export function NavBar() {
             <li className="nav-item">
               <NavLink className="nav-link" to="/cart">Carrinho</NavLink>
             </li>
+
+            {/* ✅ Link "Meus Pedidos" aparece apenas se o usuário estiver autenticado */}
+            {user && (
+              <li className="nav-item">
+                <NavLink className="nav-link" to={`/orders/user/${user.id}`}>Meus Pedidos</NavLink>
+              </li>
+            )}
+
             <li className="nav-item">
               <button className="btn btn-outline-danger" onClick={onClickLogout}>
                 <i className="bi bi-box-arrow-right me-2"></i> Sair

@@ -106,8 +106,7 @@ export function CartPage() {
 
     try {
       await CartService.mergeLocalCart(user!.id);
-      setCartItems([]); // Limpa o carrinho na tela
-      alert("Compra finalizada com sucesso!");
+      navigate("/orders/escape");
     } catch (error) {
       console.error("Erro ao finalizar compra:", error);
     }
@@ -138,8 +137,9 @@ export function CartPage() {
                 {cartItems.map((item) => {
                   const product = productDetails[item.productId];
     
+                  console.log(item);
                   return (
-                    <tr key={item.productId} className="cart-item">
+                    <tr key={item.id} className="cart-item">
                       <td>
                         {product ? (
                           <div style={{ display: "flex", alignItems: "center" }}>

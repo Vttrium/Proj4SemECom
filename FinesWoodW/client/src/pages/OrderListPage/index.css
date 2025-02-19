@@ -1,0 +1,103 @@
+.orders-container {
+    max-width: 1200px;
+    margin: 300px auto 40px auto; /* Margem superior fixa de 300px */
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-height: 100vh; /* Garante que o container ocupe toda a altura da tela */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  /* Layout responsivo: 3 colunas em telas grandes */
+  .orders-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: center;
+    padding-bottom: 20px; /* Evita que o último item fique colado no final */
+  }
+  
+  /* Ajuste para garantir que o grid cresça corretamente */
+  .orders-list .order-card {
+    min-height: 200px; /* Altura mínima para evitar que encolha muito */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Estilo dos cards */
+  .order-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: left;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .order-card:hover {
+    transform: scale(1.03);
+  }
+  
+  .order-card h3 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: #007bff;
+  }
+  
+  .order-card p {
+    margin: 5px 0;
+    font-size: 16px;
+  }
+  
+  .order-card ul {
+    padding-left: 20px;
+  }
+  
+  .details-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .details-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+  
+  /* Mensagem de erro */
+  .error-message {
+    background: #ffcccc;
+    color: #b30000;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  /* Responsivo: 1 coluna em telas menores */
+  @media (max-width: 900px) {
+    .orders-container {
+      margin-top: 700px; /* Mantém a navbar fixa sem sobreposição */
+      overflow: auto; /* Permite rolar para visualizar mais pedidos */
+      display: block;
+    }
+  
+    .orders-list {
+      grid-template-columns: 1fr;
+      overflow-y: auto; /* Adiciona rolagem vertical se houver muitos itens */
+    }
+  
+    .order-card {
+      width: 90%;
+      margin: 0 auto;
+    }
+  }
+  

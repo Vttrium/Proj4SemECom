@@ -9,7 +9,7 @@
   .product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 colunas */
-    margin-left: 45px;
+    margin-left: 110px;
     gap: 20px; /* Espaço entre os produtos */
   }
   
@@ -141,7 +141,7 @@
     }
 
     .product-list-container h2 {
-      margin-right: 70px;
+      margin-right: 50px;
     }
     
     .filter-container {

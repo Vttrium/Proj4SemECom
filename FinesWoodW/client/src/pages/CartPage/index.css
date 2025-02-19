@@ -3,6 +3,10 @@
   border-collapse: collapse;
 }
 
+.cart-page {
+  margin-top: 200px;
+}
+
 .cart-items th,
 .cart-items td {
   padding: 10px;

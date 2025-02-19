@@ -1,5 +1,7 @@
 package br.pedroS.utfpr.FinesWoodW.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +18,7 @@ public class Cart {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id", nullable = true) // Pode ser nulo para usuários não autenticados
     private User user;
 

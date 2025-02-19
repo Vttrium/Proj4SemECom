@@ -1,5 +1,5 @@
 import { IUserLogin, IUserSignup } from "@/commons/interfaces.ts";
-import api  from "@/lib/axios";
+import { api } from "@/lib/axios";
 
 const signup = async (user: IUserSignup): Promise<any> => {
   let response;

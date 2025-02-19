@@ -29,24 +29,28 @@ export function ProductDetailsPage() {
   };
 
   const handleAddToCart = async () => {
-    if (!user) {
-      alert("Você precisa estar logado para adicionar ao carrinho.");
-      return;
-    }
-  
     if (!product || product.id === undefined) {
       alert("Erro ao adicionar produto ao carrinho.");
       return;
     }
-  
+
     try {
-      await CartService.addToCart(user.id, product.id, quantity);
+      if (user) {
+        // Usuário autenticado: Adiciona ao carrinho no servidor
+        await CartService.addToCart(user.id, product.id, quantity);
+      } else {
+        // Usuário NÃO autenticado: Armazena no localStorage
+        const localCart = JSON.parse(localStorage.getItem("cart") || "[]");
+        localCart.push({ productId: product.id, quantity });
+        localStorage.setItem("cart", JSON.stringify(localCart));
+      }
+
       alert("✅ Produto adicionado ao carrinho!");
     } catch (error) {
       console.error("❌ ERRO AO ADICIONAR AO CARRINHO:", error);
       alert("Erro ao adicionar produto ao carrinho.");
     }
-  };  
+  };
 
   if (loading) {
     return <Spinner size="xl" />;
@@ -58,7 +62,7 @@ export function ProductDetailsPage() {
 
   return (
     <div>
-      {/* ✅ Navbar da homepage adicionada */}
+      {/* ✅ Navbar */}
       <nav className="navbar navbar-expand-lg fixed-top">
         <div className="container">
           <Link className="navbar-brand" to="/">
@@ -79,7 +83,7 @@ export function ProductDetailsPage() {
         </div>
       </nav>
 
-      {/* ✅ Detalhes do Produto com Layout Melhorado */}
+      {/* ✅ Detalhes do Produto */}
       <div className="product-details">
         <div className="image-section">
           <img src={product.urlImage} alt={product.name} className="product-image" />

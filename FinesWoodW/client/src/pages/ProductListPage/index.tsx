@@ -14,7 +14,7 @@ export function ProductListPage() {
   const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [searchTerm, setSearchTerm] = useState<string>(""); // Estado para o campo de busca
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [apiError, setApiError] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
 
@@ -35,7 +35,7 @@ export function ProductListPage() {
 
   useEffect(() => {
     applyFilters();
-  }, [searchTerm, selectedCategory, products]); // Atualiza a lista filtrada ao mudar os filtros
+  }, [searchTerm, selectedCategory, products]);
 
   const loadProducts = async () => {
     setApiError(false);
@@ -87,14 +87,17 @@ export function ProductListPage() {
       return;
     }
 
-    if (!user) {
-      console.error("❌ ERRO: Usuário não autenticado!");
-      alert("Você precisa estar logado para adicionar ao carrinho.");
-      return;
-    }
-
     try {
-      await CartService.addToCart(user.id, productId, 1);
+      if (user) {
+        // Usuário autenticado: Adiciona ao carrinho no servidor
+        await CartService.addToCart(user.id, productId, 1);
+      } else {
+        // Usuário NÃO autenticado: Armazena no localStorage
+        const localCart = JSON.parse(localStorage.getItem("cart") || "[]");
+        localCart.push({ productId, quantity: 1 });
+        localStorage.setItem("cart", JSON.stringify(localCart));
+      }
+
       setApiMessage("✅ Produto adicionado ao carrinho!");
       setApiError(false);
     } catch (error) {

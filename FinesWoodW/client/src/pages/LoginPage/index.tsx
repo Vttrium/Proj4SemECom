@@ -3,7 +3,7 @@ import "./index.css";
 import { IUserLogin } from "@/commons/interfaces.ts";
 import { ButtonWithProgress } from "@/components/ButtonWithProgress";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext"; // Importa o contexto de autenticação
+import AuthService from "@/service/AuthService"; // ✅ Importando AuthService diretamente
 
 export function LoginPage() {
     const [form, setForm] = useState<IUserLogin>({
@@ -15,7 +15,6 @@ export function LoginPage() {
     const [apiError, setApiError] = useState(false);
     const [apiSuccess, setApiSuccess] = useState(false);
     const navigate = useNavigate();
-    const { login } = useAuth(); // Acessa a função login do contexto
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -30,12 +29,16 @@ export function LoginPage() {
         setApiError(false);
 
         try {
-            await login(form.email, form.password); // Usando a função login do contexto
+            const response = await AuthService.login(form); // ✅ Usando login do AuthService
 
-            setApiSuccess(true);
-            setTimeout(() => {
-                navigate("/"); // Redireciona para a página inicial após sucesso
-            }, 2000);
+            if (response.status === 200) { // Verifica se o login foi bem-sucedido
+                setApiSuccess(true);
+                setTimeout(() => {
+                    navigate("/"); // ✅ Redireciona para a homepage
+                }, 2000);
+            } else {
+                setApiError(true);
+            }
         } catch (error) {
             setApiError(true);
         } finally {
@@ -78,6 +81,7 @@ export function LoginPage() {
                     />
                     <label htmlFor="password">Informe sua senha</label>
                 </div>
+
                 {apiError && <div className="alert alert-danger">Falha ao autenticar-se!</div>}
                 {apiSuccess && <div className="alert alert-success">Usuário autenticado com sucesso!</div>}
 

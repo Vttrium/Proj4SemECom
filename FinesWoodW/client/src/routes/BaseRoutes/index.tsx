@@ -9,6 +9,8 @@ import { AddressPage } from "@/pages/AddressFormPage";
 import { ProductFormPage } from "@/pages/ProductFormPage";
 import { ProductDetailsPage } from "@/pages/ProductListPageV2/ProductDetailsPage";
 import { CartPage } from "@/pages/CartPage";
+import { OrderPage } from "@/pages/PayPage";
+import { UserOrdersPage } from "@/pages/OrderListPage";
 export function BaseRoutes() {
   return (
     <>
@@ -28,9 +30,11 @@ export function BaseRoutes() {
 
         {/* Protected Routes */}
         <Route element={<AuthenticatedRoutes />}>
-        
+
+          <Route path="/orders/escape" element={<OrderPage />} />
+          <Route path="/orders/user/:id" element={<UserOrdersPage />} />
           <Route path="/address" element={<AddressPage />} />
-          <Route path="/address/:id" element={<AddressListPage />} />
+          <Route path="/address/user/:id" element={<AddressListPage />} />
           
           <Route path="/products/new" element={<ProductFormPage />} />
           <Route path="/products/:id" element={<ProductFormPage />} />

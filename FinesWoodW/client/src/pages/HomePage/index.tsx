@@ -23,7 +23,7 @@ export function HomePage() {
 
   const loadProducts = async () => {
     const response = await ProductService.findAll();
-    if (response.status == 200) {
+    if (response.status === 200) {
       setProducts(response.data);
       setApiError("");
     } else {
@@ -56,16 +56,15 @@ export function HomePage() {
       return;
     }
 
-    if (!user) {
-      console.error("❌ ERRO: Usuário não autenticado!");
-      alert("Você precisa estar logado para adicionar ao carrinho.");
-      return;
-    }
-
-    console.log("✅ Adicionando ao carrinho:", { userId: user.id, productId, quantity: 1 });
-
     try {
-      await CartService.addToCart(user.id, productId, 1);
+      if (user) {
+        await CartService.addToCart(user.id, productId, 1);
+      } else {
+        const localCart = JSON.parse(localStorage.getItem("cart") || "[]");
+        localCart.push({ productId, quantity: 1 });
+        localStorage.setItem("cart", JSON.stringify(localCart));
+      }
+
       alert("✅ Produto adicionado ao carrinho!");
     } catch (error) {
       console.error("❌ ERRO AO ADICIONAR AO CARRINHO:", error);
@@ -90,6 +89,14 @@ export function HomePage() {
               <li className="nav-item"><Link className="nav-link" to="/products">Produtos</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/address">Endereços</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/cart">Carrinho</Link></li>
+              
+              {/* ✅ Link "Meus Pedidos" aparece somente para usuários autenticados */}
+              {user && (
+                <li className="nav-item">
+                  <Link className="nav-link" to={`/orders/user/${user.id}`}>Meus Pedidos</Link>
+                </li>
+              )}
+
               <li className="nav-item"><Link className="nav-link" to="/login">Sair</Link></li>
             </ul>
           </div>

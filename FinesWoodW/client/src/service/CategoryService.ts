@@ -1,5 +1,5 @@
 import { ICategory } from "@/commons/interfaces";
-import api from "@/lib/axios";
+import { api } from "@/lib/axios";
 
 const CATEGORY_URL = "/categories";
 

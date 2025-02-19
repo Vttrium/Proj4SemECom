@@ -27,6 +27,11 @@ public class CartService {
         return cartRepository.findByUserId(userId);
     }
 
+    @Transactional
+    public void clearCart(Long userId) {
+        cartRepository.deleteByUserId(userId);
+    }
+
     public Cart addToCart(Long userId, Long productId, int quantity) {
         Cart cartItem = new Cart();
         cartItem.setUser(userRepository.findById(userId).orElse(null));
