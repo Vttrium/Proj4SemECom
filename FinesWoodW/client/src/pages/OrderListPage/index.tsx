@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { api } from "@/lib/axios";
 import { useAuth } from "@/context/AuthContext";
-import { NavBar } from "@/components/Navbar";
+import { NavBar } from "@/components/NavBar";
 import "./index.css";
 
 interface OrderItem {
@@ -29,20 +28,19 @@ interface Order {
 }
 
 export function UserOrdersPage() {
-  const { user } = useAuth();
-  const { userId } = useParams();
+  const { getUserId, isAuthenticated } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user?.id) return;
+    if (!isAuthenticated) return;
 
     const fetchOrders = async () => {
       setLoading(true);
       try {
         // Buscar os pedidos do usuário
-        const response = await api.get<Order[]>(`http://localhost:8080/orders/user/${user?.id}`);
+        const response = await api.get<Order[]>(`http://localhost:8080/orders/user/${getUserId()}`);
         const ordersWithDetails = await Promise.all(
           response.data.map(async (order) => {
             try {
@@ -95,7 +93,7 @@ export function UserOrdersPage() {
     };
 
     fetchOrders();
-  }, [userId]);
+  }, []);
 
   return (
     <>

@@ -83,7 +83,7 @@ class CartService {
   /**
    * Mescla o carrinho local com o do usuário autenticado após login
    */
-  static async mergeLocalCart(userId: number) {
+  static async mergeLocalCart(userId: number | null) {
     const localCart: CartItem[] = JSON.parse(localStorage.getItem(this.LOCAL_CART_KEY) || "[]");
 
     if (localCart.length > 0) {

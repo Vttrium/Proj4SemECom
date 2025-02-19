@@ -4,12 +4,12 @@ import ProductService from "@/service/ProductService";
 import CategoryService from "@/service/CategoryService";
 import CartService from "@/service/CartService";
 import { useAuth } from "@/context/AuthContext";
-import { NavBar } from "@/components/Navbar";
+import { NavBar } from "@/components/NavBar";
 import "./index.css";
 import { Link } from "react-router-dom";
 
 export function ProductListPage() {
-  const { user } = useAuth();
+  const { getUserId, isAuthenticated } = useAuth();
   const [products, setProducts] = useState<IProduct[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
@@ -88,9 +88,9 @@ export function ProductListPage() {
     }
 
     try {
-      if (user) {
+      if (isAuthenticated) {
         // Usuário autenticado: Adiciona ao carrinho no servidor
-        await CartService.addToCart(user.id, productId, 1);
+        await CartService.addToCart(getUserId(), productId, 1);
       } else {
         // Usuário NÃO autenticado: Armazena no localStorage
         const localCart = JSON.parse(localStorage.getItem("cart") || "[]");

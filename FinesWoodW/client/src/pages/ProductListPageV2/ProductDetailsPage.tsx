@@ -9,7 +9,7 @@ import "./index.css";
 
 export function ProductDetailsPage() {
   const { id } = useParams();
-  const { user } = useAuth();
+  const { getUserId, isAuthenticated } = useAuth();
   const [product, setProduct] = useState<IProduct | null>(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
@@ -35,9 +35,9 @@ export function ProductDetailsPage() {
     }
 
     try {
-      if (user) {
+      if (isAuthenticated) {
         // Usuário autenticado: Adiciona ao carrinho no servidor
-        await CartService.addToCart(user.id, product.id, quantity);
+        await CartService.addToCart(getUserId(), product.id, quantity);
       } else {
         // Usuário NÃO autenticado: Armazena no localStorage
         const localCart = JSON.parse(localStorage.getItem("cart") || "[]");

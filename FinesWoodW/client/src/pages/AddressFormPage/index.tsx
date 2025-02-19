@@ -1,6 +1,7 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/axios"; // ✅ Certifique-se de que esta importação está correta
+import { useAuth } from "@/context/AuthContext";
 interface AddressRequest {
   state: string;
   city: string;
@@ -33,21 +34,9 @@ export function AddressPage() {
   const [address, setAddress] = useState<AddressResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<{ id: number } | null>(null);
+  const { getUserId, isAuthenticated } = useAuth()
 
   const navigate = useNavigate();
-
-  // Obtém o usuário autenticado de forma segura
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (e) {
-        console.error("Erro ao recuperar usuário:", e);
-      }
-    }
-  }, []);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -62,7 +51,7 @@ export function AddressPage() {
     try {
       const response = await api.post<AddressResponse>("/address", {
         ...form,
-        userId: user?.id, // Usa o ID do usuário autenticado
+        userId: getUserId(), // Usa o ID do usuário autenticado
       });
 
       setAddress(response.data);
@@ -74,8 +63,8 @@ export function AddressPage() {
   };
 
   const handleRedirect = () => {
-    if (user?.id) {
-      navigate(`/address/user/${user.id}`);
+    if (getUserId()) {
+      navigate(`/address/user/${getUserId()}`);
     }
   };
 
@@ -127,7 +116,7 @@ export function AddressPage() {
         </div>
       )}
 
-      {user?.id && (
+      {isAuthenticated && (
         <button onClick={handleRedirect} className="btn btn-secondary mt-3">
           Endereços cadastrados
         </button>

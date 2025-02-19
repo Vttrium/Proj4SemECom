@@ -3,13 +3,14 @@ import "./index.css";
 import { IUserLogin } from "@/commons/interfaces.ts";
 import { ButtonWithProgress } from "@/components/ButtonWithProgress";
 import { Link, useNavigate } from "react-router-dom";
-import AuthService from "@/service/AuthService"; // ✅ Importando AuthService diretamente
+import { useAuth } from "@/context/AuthContext";
 
 export function LoginPage() {
     const [form, setForm] = useState<IUserLogin>({
         email: "",
         password: "",
     });
+    const { login, logout } = useAuth()
 
     const [pendingApiCall, setPendingApiCall] = useState(false);
     const [apiError, setApiError] = useState(false);
@@ -29,7 +30,8 @@ export function LoginPage() {
         setApiError(false);
 
         try {
-            const response = await AuthService.login(form); // ✅ Usando login do AuthService
+            logout()
+            const response = await login(form.email, form.password); // ✅ Usando login do AuthService
 
             if (response.status === 200) { // Verifica se o login foi bem-sucedido
                 setApiSuccess(true);

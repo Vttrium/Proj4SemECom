@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/axios";
 import { IProduct } from "@/commons/interfaces";
 import "./index.css";
-import { NavBar } from "@/components/Navbar";
+import { NavBar } from "@/components/NavBar";
 
 interface CartItem {
   id?: number;
@@ -21,7 +21,7 @@ interface Address {
 }
 
 export function OrderPage() {
-  const { user, isAuthenticated } = useAuth();
+  const { getUserId, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -38,9 +38,9 @@ export function OrderPage() {
    */
   useEffect(() => {
     const fetchAddresses = async () => {
-      if (!user?.id) return;
+      if (!isAuthenticated) return;
       try {
-        const response = await api.get<Address[]>(`http://localhost:8080/address/user/${user.id}`);
+        const response = await api.get<Address[]>(`http://localhost:8080/address/user/${getUserId()}`);
         setAddresses(response.data);
         if (response.data.length > 0) {
           setSelectedAddressId(response.data[0].id); // Seleciona o primeiro endereço por padrão
@@ -52,7 +52,7 @@ export function OrderPage() {
     };
 
     fetchAddresses();
-  }, [user]);
+  }, []);
 
   /**
    * Carrega os itens do carrinho e os detalhes dos produtos.
@@ -61,7 +61,7 @@ export function OrderPage() {
     const fetchCart = async () => {
       setLoading(true);
       try {
-        const userId = user?.id || null;
+        const userId = getUserId() || null;
         const cart = await CartService.getCart(userId);
         setCartItems(cart);
 
@@ -92,7 +92,7 @@ export function OrderPage() {
     };
 
     fetchCart();
-  }, [user, isAuthenticated]);
+  }, [isAuthenticated]);
 
   /**
    * Envia o pedido para o backend e limpa o carrinho.
@@ -116,7 +116,7 @@ export function OrderPage() {
     const orderData = {
       payMethod,
       status: "Pending",
-      userId: user?.id,
+      userId: getUserId(),
       shipAddressId: selectedAddressId,
       total,
       orderItems,
@@ -128,12 +128,12 @@ export function OrderPage() {
       alert("✅ Pedido realizado com sucesso!");
   
       // 🔥 Esvazia o carrinho corretamente
-      await CartService.clearCart(user?.id ?? null);
+      await CartService.clearCart(getUserId() ?? null);
       setCartItems([]);
       localStorage.removeItem("cart");
   
       // ✅ Redireciona para a tela de pedidos do usuário
-      navigate(`/orders/user/${user?.id}`);
+      navigate(`/orders/user/${getUserId()}`);
     } catch (error) {
       console.error("❌ Erro ao criar pedido:", error);
       setError("Erro ao processar o pedido. Tente novamente.");

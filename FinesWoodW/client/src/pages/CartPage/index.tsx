@@ -5,7 +5,7 @@ import ProductService from "@/service/ProductService";
 import { useAuth } from "@/context/AuthContext";
 import { IProduct } from "@/commons/interfaces";
 import "./index.css";
-import { NavBar } from "@/components/Navbar";
+import { NavBar } from "@/components/NavBar";
 
 
 interface CartItem {
@@ -19,7 +19,7 @@ export function CartPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [productDetails, setProductDetails] = useState<Record<number, IProduct>>({});
   const [loading, setLoading] = useState(true);
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated, getUserId } = useAuth();
   const navigate = useNavigate();
 
   /**
@@ -29,7 +29,7 @@ export function CartPage() {
     const fetchCart = async () => {
       setLoading(true);
       try {
-        const userId = user?.id || null;
+        const userId = getUserId() || null;
         const cart = await CartService.getCart(userId);
         setCartItems(cart);
 
@@ -52,14 +52,14 @@ export function CartPage() {
     };
 
     fetchCart();
-  }, [user, isAuthenticated]);
+  }, [isAuthenticated]);
 
   /**
    * Atualiza os itens do carrinho.
    */
   const handleCartUpdate = async () => {
     try {
-      const userId = user?.id || null;
+      const userId = getUserId() || null;
       const updatedCart = await CartService.getCart(userId);
       setCartItems(updatedCart);
     } catch (error) {
@@ -72,7 +72,7 @@ export function CartPage() {
    */
   const handleRemoveItem = async (cartId: number, productId: number) => {
     try {
-      await CartService.removeFromCart(cartId, productId, user?.id || null);
+      await CartService.removeFromCart(cartId, productId, getUserId() || null);
       handleCartUpdate();
     } catch (error) {
       console.error("Erro ao remover item do carrinho:", error);
@@ -88,7 +88,7 @@ export function CartPage() {
       return;
     }
     try {
-      await CartService.updateCart(cartId, productId, newQuantity, user?.id || null);
+      await CartService.updateCart(cartId, productId, newQuantity, getUserId() || null);
       handleCartUpdate();
     } catch (error) {
       console.error("Erro ao atualizar quantidade do item:", error);
@@ -105,7 +105,7 @@ export function CartPage() {
     }
 
     try {
-      await CartService.mergeLocalCart(user!.id);
+      await CartService.mergeLocalCart(getUserId());
       navigate("/orders/escape");
     } catch (error) {
       console.error("Erro ao finalizar compra:", error);

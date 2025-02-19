@@ -5,7 +5,7 @@ import AuthService from "@/service/AuthService";
 import "./index.css";
 
 export function NavBar() {
-  const { user } = useAuth();
+  const { isAuthenticated, getUserId } = useAuth();
   const navigate = useNavigate();
 
   const onClickLogout = () => {
@@ -43,9 +43,9 @@ export function NavBar() {
             </li>
 
             {/* ✅ Link "Meus Pedidos" aparece apenas se o usuário estiver autenticado */}
-            {user && (
+            {isAuthenticated && (
               <li className="nav-item">
-                <NavLink className="nav-link" to={`/orders/user/${user.id}`}>Meus Pedidos</NavLink>
+                <NavLink className="nav-link" to={`/orders/user/${getUserId()}`}>Meus Pedidos</NavLink>
               </li>
             )}
 

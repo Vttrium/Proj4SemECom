@@ -13,20 +13,20 @@ interface Address {
 }
 
 export function AddressListPage() {
-  const { user } = useAuth();
+  const { isAuthenticated, getUserId } = useAuth();
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAddresses = async () => {
-      if (!user) return;
+      if (!isAuthenticated) return;
 
       setLoading(true);
       setError(null);
 
       try {
-        const response = await api.get<Address[]>(`/address/user/${user.id}`); // ✅ Usando AuthService.api
+        const response = await api.get<Address[]>(`/address/user/${getUserId()}`); // ✅ Usando AuthService.api
         setAddresses(response.data);
       } catch (err) {
         setError("Erro ao carregar endereços.");
@@ -36,7 +36,7 @@ export function AddressListPage() {
     };
 
     fetchAddresses();
-  }, [user]);
+  }, []);
 
   return (
     <div className="container">

@@ -9,13 +9,15 @@ import banner2 from "@/assets/banner2.jpg";
 import banner3 from "@/assets/banner3.jpg";
 import defaultProduct from "@/assets/default_product.jpg";
 import { IProduct } from "@/commons/interfaces.ts";
+import { useNavigate } from 'react-router-dom'
 
 export function HomePage() {
-  const { user } = useAuth();
+  const { isAuthenticated, logout, getUserId } = useAuth();
   const [products, setProducts] = useState<IProduct[]>([]);
   const [apiError, setApiError] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 3;
+  const navigate = useNavigate()
 
   useEffect(() => {
     loadProducts();
@@ -57,8 +59,8 @@ export function HomePage() {
     }
 
     try {
-      if (user) {
-        await CartService.addToCart(user.id, productId, 1);
+      if (isAuthenticated) {
+        await CartService.addToCart(getUserId(), productId, 1);
       } else {
         const localCart = JSON.parse(localStorage.getItem("cart") || "[]");
         localCart.push({ productId, quantity: 1 });
@@ -71,6 +73,12 @@ export function HomePage() {
       alert("Erro ao adicionar produto ao carrinho.");
     }
   };
+
+  const handleLogout = () => {
+    logout()
+
+    navigate("/login")
+  }
 
   return (
     <div>
@@ -91,13 +99,13 @@ export function HomePage() {
               <li className="nav-item"><Link className="nav-link" to="/cart">Carrinho</Link></li>
               
               {/* ✅ Link "Meus Pedidos" aparece somente para usuários autenticados */}
-              {user && (
+              {isAuthenticated && (
                 <li className="nav-item">
-                  <Link className="nav-link" to={`/orders/user/${user.id}`}>Meus Pedidos</Link>
+                  <Link className="nav-link" to={`/orders/user/${getUserId()}`}>Meus Pedidos</Link>
                 </li>
               )}
 
-              <li className="nav-item"><Link className="nav-link" to="/login">Sair</Link></li>
+              <li className="nav-item"><span className="nav-link" onClick={handleLogout}>Sair</span></li>
             </ul>
           </div>
         </div>
@@ -126,7 +134,7 @@ export function HomePage() {
         </div>
       </div>
 
-      {/* Lista de Produtos com Carrossel */}
+    {/* Lista de Produtos com Carrossel */}
       <div className="products-container">
         <h2 className="text-center">Produtos em Destaque</h2>
         {apiError && <p className="error-message">{apiError}</p>}
